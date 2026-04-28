@@ -3,158 +3,962 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ammu — Korean TOPIK Master Portal</title>
+<title>Korean TOPIK Level 2 — 8-Week Roadmap</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Lora:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
-  
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --red: #C8102E; --blue: #0057A8; --green: #27AE60; --purple: #7B2D8B; --orange: #D4780A;
-    --bg: #f8f9fa; --card: #ffffff; --text: #1a1a1a; --border: #e9ecef;
+    --red: #C8102E;
+    --blue: #0057A8;
+    --green: #2E8B57;
+    --purple: #7B2D8B;
+    --orange: #D4780A;
+    --bg: #f5f4f1;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: #777;
+    --border: #e4e4e4;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
 
-  /* SECURITY GATE (FIXED: No password leaks) */
-  #gatekeeper { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 10000; display: flex; align-items: center; justify-content: center; }
-  .gate-card { background: white; padding: 40px; border-radius: 24px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #b00e28 0%, #C8102E 60%, #e01535 100%);
+    color: #fff;
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '한국어';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 100px;
+    opacity: 0.07;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .header-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .header p { opacity: 0.85; font-size: 14px; }
 
-  /* PROFESSIONAL HEADER */
-  .header { background: linear-gradient(135deg, #b00e28 0%, #C8102E 100%); color: white; padding: 40px 20px; text-align: center; }
-  .header h1 { font-family: 'Lora', serif; font-size: 32px; margin-bottom: 10px; }
+  /* ── TABS ── */
+  .tabs {
+    background: var(--card);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tab-btn {
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab-btn.active {
+    color: var(--red);
+    font-weight: 700;
+    border-bottom-color: var(--red);
+  }
+  .tab-btn:hover:not(.active) { color: #333; }
 
-  /* TABS */
-  .nav-tabs { display: flex; background: white; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; justify-content: center; }
-  .tab-btn { padding: 18px 25px; border: none; background: none; font-weight: 600; cursor: pointer; color: #6c757d; border-bottom: 4px solid transparent; transition: 0.2s; }
-  .tab-btn.active { color: var(--red); border-bottom-color: var(--red); }
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 18px 60px;
+  }
 
-  .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
-  .page { display: none; animation: fadeIn 0.4s; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 26px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-segment {
+    height: 7px;
+    border-radius: 3px;
+    opacity: 0.25;
+    transition: opacity 0.2s;
+    flex: 1;
+  }
+  .progress-segment.active { opacity: 1; }
 
-  /* RESTORED PHASE CARDS [cite: 366-559] */
-  .phase-card { background: white; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-  .phase-header { padding: 20px; display: flex; align-items: center; cursor: pointer; background: white; transition: 0.2s; }
-  .phase-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 20px; color: white; }
-  .phase-content { display: none; padding: 25px; border-top: 1px solid var(--border); background: #fafafa; }
-  .phase-content.open { display: block; }
+  /* ── PHASE CARDS ── */
+  .phase-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .phase-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
 
-  /* STUDY SHEET TABLES [cite: 623-833] */
-  .sheet-box { background: white; padding: 25px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 30px; }
-  table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-  th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid var(--border); }
-  td { padding: 12px; border-bottom: 1px solid var(--border); font-family: 'Noto Sans KR', sans-serif; }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .phase-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .phase-meta { flex: 1; }
+  .phase-badge-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .phase-num {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .phase-weeks {
+    font-size: 11px;
+    color: var(--muted);
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+  .phase-title { font-size: 16px; font-weight: 700; }
+  .phase-chevron {
+    font-size: 12px;
+    color: #bbb;
+    transition: transform 0.2s;
+  }
+  .phase-chevron.open { transform: rotate(180deg); }
 
-  /* GAME AREA */
-  .game-area { background: white; padding: 40px; border-radius: 24px; text-align: center; border: 2px solid var(--border); }
-  .game-word { font-size: 3.5rem; font-weight: 700; color: var(--blue); margin-bottom: 20px; font-family: 'Noto Sans KR'; }
-  .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
-  .game-opt { padding: 20px; border: 2px solid var(--border); border-radius: 15px; background: white; cursor: pointer; transition: 0.2s; }
-  .game-opt.correct { background: var(--green); color: white; border-color: var(--green); }
+  .phase-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px dashed #e0e0e0;
+    margin-top: 0;
+    padding-top: 18px;
+  }
+  .phase-body.open { display: block; }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 500px) { .phase-grid { grid-template-columns: 1fr; } }
+
+  .phase-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .check-item, .arrow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .check-icon { margin-top: 1px; flex-shrink: 0; }
+
+  .daily-box {
+    border-radius: 9px;
+    padding: 11px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .daily-label { font-weight: 700; margin-right: 4px; }
+
+  .sheet-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.15s;
+  }
+  .sheet-link-btn:hover { opacity: 0.85; }
+
+  /* ── TIMELINE ── */
+  .timeline-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 24px;
+  }
+  .timeline-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .timeline-bar { display: flex; }
+  .timeline-seg { text-align: center; }
+  .timeline-color { height: 8px; }
+  .timeline-text { font-size: 10px; color: var(--muted); margin-top: 5px; padding: 0 2px; }
+
+  /* ── STUDY SHEETS ── */
+  .sheets-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 480px) { .sheets-grid { grid-template-columns: 1fr; } }
+
+  .sheet-card {
+    border-radius: 14px;
+    padding: 20px 18px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .sheet-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  .sheet-card-emoji { font-size: 26px; margin-bottom: 10px; }
+  .sheet-card-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .sheet-card-sub { font-size: 12px; color: var(--muted); }
+
+  .sheet-view { display: none; }
+  .sheet-view.open { display: block; }
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--red);
+    font-size: 13px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0;
+  }
+  .sheet-title {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-heading {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    margin-top: 26px;
+  }
+  .section-heading:first-child { margin-top: 0; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 4px; }
+  th {
+    background: #f5f5f5;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    white-space: nowrap;
+  }
+  td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; }
+  tr:nth-child(even) td { background: #fafafa; }
+  td:first-child { font-family: 'Noto Sans KR', sans-serif; }
+
+  .note-box {
+    background: #fffbe6;
+    border: 1px solid #f0d060;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    white-space: pre-line;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  ul.sheet-list { padding-left: 20px; }
+  ul.sheet-list li { margin-bottom: 8px; font-size: 13.5px; line-height: 1.6; }
+
+  /* ── INTRO NOTE ── */
+  .intro-note {
+    background: #fff7e0;
+    border: 1px solid #f0d060;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+
+  /* tab pages */
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+
+  .sheets-home { }
+  .sheet-intro { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
 </style>
 </head>
 <body>
 
-<div id="gatekeeper">
-    <div class="gate-card">
-        <h1 style="color:var(--blue)">Ammu Portal</h1>
-        <p>Private Educational Environment</p>
-        <input type="password" id="pass" placeholder="Security Code" style="width:100%; padding:15px; margin:20px 0; border-radius:12px; border:1px solid #ddd; text-align:center; font-size: 1.2rem;">
-        <button onclick="unlock()" style="background:var(--red); color:white; border:none; padding:15px; border-radius:12px; width:100%; font-weight:bold; cursor:pointer;">UNLOCK SYSTEM</button>
-    </div>
-</div>
-
+<!-- HEADER -->
 <div class="header">
-    <h1>Ammu Master Study Portal</h1>
-    <p>Professional TOPIK Level 2 Roadmap</p>
+  <div class="header-label">Language Learning Plan</div>
+  <h1>한국어 — Korean to TOPIK Level 2</h1>
+  <p>8-week intensive roadmap &nbsp;·&nbsp; 5 phases &nbsp;·&nbsp; 4 study sheets &nbsp;·&nbsp; ~2 hrs/day</p>
 </div>
 
-<div class="nav-tabs">
-    <button class="tab-btn active" onclick="showPage('roadmap', this)">📍 ROADMAP</button>
-    <button class="tab-btn" onclick="showPage('sheets', this)">📚 STUDY SHEETS</button>
-    <button class="tab-btn" onclick="showPage('game', this)">🎮 PRACTICE GAME</button>
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('roadmap')">📍 Roadmap</button>
+  <button class="tab-btn" onclick="switchTab('sheets')">📄 Study Sheets</button>
 </div>
 
-<div class="container">
-    <div id="page-roadmap" class="page active">
-        <div class="phase-card">
-            <div class="phase-header" onclick="togglePhase(1)">
-                <div class="phase-icon" style="background:var(--red)">🔤</div>
-                <div><b>Phase 1: Week 1</b><br>Hangul & Foundations</div>
-            </div>
-            <div class="phase-content" id="phase-1">
-                <p>Master Hangul reading & writing in 7 days. Learn basic pronunciation rules and greetings [cite: 382-393].</p>
-            </div>
-        </div>
-        </div>
+<!-- MAIN -->
+<div class="main">
 
-    <div id="page-sheets" class="page">
-        <div class="sheet-box">
-            <h3>Essential Particles [cite: 666-675]</h3>
-            <table>
-                <thead><tr><th>Particle</th><th>Function</th><th>Example</th></tr></thead>
-                <tbody>
-                    <tr><td>은/는</td><td>Topic Marker</td><td>저는 학생입니다.</td></tr>
-                    <tr><td>이/가</td><td>Subject Marker</td><td>날씨가 좋습니다.</td></tr>
-                    <tr><td>을/를</td><td>Object Marker</td><td>사과를 먹어요.</td></tr>
-                </tbody>
-            </table>
-        </div>
+  <!-- ══════════════════════════════════════════
+       ROADMAP TAB
+  ══════════════════════════════════════════ -->
+  <div id="tab-roadmap" class="tab-page active">
+
+    <div class="intro-note">
+      ⚡ This is an <strong>intensive</strong> 8-week plan. Consistency is everything — aim for at least <strong>2 focused hours every day</strong>. Use Anki for vocabulary and don't skip weekends!
     </div>
 
-    <div id="page-game" class="page">
-        <div class="game-area">
-            <div class="game-word" id="target-kr">준비...</div>
-            <div class="game-grid" id="options-grid"></div>
-        </div>
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-segment" style="background:#C8102E" data-phase="1"></div>
+      <div class="progress-segment" style="background:#0057A8;flex:2" data-phase="2"></div>
+      <div class="progress-segment" style="background:#2E8B57;flex:2" data-phase="3"></div>
+      <div class="progress-segment" style="background:#7B2D8B;flex:2" data-phase="4"></div>
+      <div class="progress-segment" style="background:#D4780A" data-phase="5"></div>
     </div>
-</div>
+
+    <!-- Phase 1 -->
+    <div class="phase-card" style="--accent:#C8102E">
+      <div class="phase-header" onclick="togglePhase(1)">
+        <div class="phase-icon" style="background:#C8102E;color:#fff">🔤</div>
+        <div class="phase-meta">
+          <div class="phase-badge-row">
+            <span class="phase-num" style="color:#C8102E">Phase 1</span>
+            <span class="phase-weeks">Week 1</span>
+          </div>
+          <div class="phase-title">Hangul & Foundations</div>
+        </div>
+        <div class="phase-chevron" id="chevron-1">▼</div>
+      </div>
+      <div class="phase-body" id="body-1">
+        <div class="phase-grid">
+          <div>
+            <div class="phase-section-label">Goals</div>
+            <div class="check-item"><span class="check-icon" style="color:#C8102E">✓</span> Master Hangul reading & writing in 7 days</div>
+            <div class="check-item"><span class="check-icon" style="color:#C8102E">✓</span> Learn basic pronunciation rules</div>
+            <div class="check-item"><span class="check-icon" style="color:#C8102E">✓</span> Count in both number systems</div>
+            <div class="check-item"><span class="check-icon" style="color:#C8102E">✓</span> Greet and introduce yourself</div>
+          </div>
+          <div>
+            <div class="phase-section-label">Topics Covered</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Vowels & consonants (Day 1–2)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Syllable blocks & 받침 (Day 3)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Tense & aspirated consonants (Day 4)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Sino-Korean & native numbers (Day 5)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Basic greetings & self-intro (Day 6–7)</div>
+          </div>
+        </div>
+        <div class="daily-box" style="background:#fff0f2;border:1px solid #f0b0bb">
+          <span class="daily-label" style="color:#C8102E">⏱ Daily plan:</span>
+          2 hrs/day — 45 min Hangul drill · 45 min pronunciation · 30 min numbers & phrases
+        </div>
+        <button class="sheet-link-btn" style="background:#C8102E" onclick="openSheet('hangul')">Open Study Sheet →</button>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-card">
+      <div class="phase-header" onclick="togglePhase(2)">
+        <div class="phase-icon" style="background:#0057A8;color:#fff">🧱</div>
+        <div class="phase-meta">
+          <div class="phase-badge-row">
+            <span class="phase-num" style="color:#0057A8">Phase 2</span>
+            <span class="phase-weeks">Weeks 2–3</span>
+          </div>
+          <div class="phase-title">Core Grammar</div>
+        </div>
+        <div class="phase-chevron" id="chevron-2">▼</div>
+      </div>
+      <div class="phase-body" id="body-2">
+        <div class="phase-grid">
+          <div>
+            <div class="phase-section-label">Goals</div>
+            <div class="check-item"><span class="check-icon" style="color:#0057A8">✓</span> Use particles correctly</div>
+            <div class="check-item"><span class="check-icon" style="color:#0057A8">✓</span> Conjugate verbs in 3 tenses</div>
+            <div class="check-item"><span class="check-icon" style="color:#0057A8">✓</span> Form basic sentences</div>
+            <div class="check-item"><span class="check-icon" style="color:#0057A8">✓</span> Ask and answer simple questions</div>
+          </div>
+          <div>
+            <div class="phase-section-label">Topics Covered</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Topic (은/는) & subject (이/가)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Object particle (을/를)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Present -아/어요</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Past -았/었어요</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Future -(으)ㄹ 거예요</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Negation: 안 & -지 않다</div>
+          </div>
+        </div>
+        <div class="daily-box" style="background:#f0f4ff;border:1px solid #b0c4f0">
+          <span class="daily-label" style="color:#0057A8">⏱ Daily plan:</span>
+          2 hrs/day — 30 min new grammar · 45 min writing practice · 45 min Anki vocab (50 words/day)
+        </div>
+        <button class="sheet-link-btn" style="background:#0057A8" onclick="openSheet('grammar')">Open Study Sheet →</button>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-card">
+      <div class="phase-header" onclick="togglePhase(3)">
+        <div class="phase-icon" style="background:#2E8B57;color:#fff">📚</div>
+        <div class="phase-meta">
+          <div class="phase-badge-row">
+            <span class="phase-num" style="color:#2E8B57">Phase 3</span>
+            <span class="phase-weeks">Weeks 4–5</span>
+          </div>
+          <div class="phase-title">Vocabulary Sprint — 800 Words</div>
+        </div>
+        <div class="phase-chevron" id="chevron-3">▼</div>
+      </div>
+      <div class="phase-body" id="body-3">
+        <div class="phase-grid">
+          <div>
+            <div class="phase-section-label">Goals</div>
+            <div class="check-item"><span class="check-icon" style="color:#2E8B57">✓</span> Reach 800 core vocabulary words</div>
+            <div class="check-item"><span class="check-icon" style="color:#2E8B57">✓</span> Cover all TOPIK I topic areas</div>
+            <div class="check-item"><span class="check-icon" style="color:#2E8B57">✓</span> Learn noun/verb/adjective patterns</div>
+            <div class="check-item"><span class="check-icon" style="color:#2E8B57">✓</span> Build word families</div>
+          </div>
+          <div>
+            <div class="phase-section-label">Topics Covered</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Family & people (Day 1–2)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Daily routines & time (Day 3–4)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Food & restaurants (Day 5–6)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Transportation & places (Day 7–8)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Weather & seasons (Day 9–10)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Shopping & money (Day 11–12)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Health & body (Day 13–14)</div>
+          </div>
+        </div>
+        <div class="daily-box" style="background:#f0fff5;border:1px solid #a0d8b0">
+          <span class="daily-label" style="color:#2E8B57">⏱ Daily plan:</span>
+          2.5 hrs/day — 1 hr new vocab (80 words) · 1 hr Anki review · 30 min reading short texts
+        </div>
+        <button class="sheet-link-btn" style="background:#2E8B57" onclick="openSheet('vocab')">Open Study Sheet →</button>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase-card">
+      <div class="phase-header" onclick="togglePhase(4)">
+        <div class="phase-icon" style="background:#7B2D8B;color:#fff">⚙️</div>
+        <div class="phase-meta">
+          <div class="phase-badge-row">
+            <span class="phase-num" style="color:#7B2D8B">Phase 4</span>
+            <span class="phase-weeks">Weeks 6–7</span>
+          </div>
+          <div class="phase-title">Intermediate Grammar</div>
+        </div>
+        <div class="phase-chevron" id="chevron-4">▼</div>
+      </div>
+      <div class="phase-body" id="body-4">
+        <div class="phase-grid">
+          <div>
+            <div class="phase-section-label">Goals</div>
+            <div class="check-item"><span class="check-icon" style="color:#7B2D8B">✓</span> Connect sentences fluently</div>
+            <div class="check-item"><span class="check-icon" style="color:#7B2D8B">✓</span> Express ability & desire</div>
+            <div class="check-item"><span class="check-icon" style="color:#7B2D8B">✓</span> Use honorific speech</div>
+            <div class="check-item"><span class="check-icon" style="color:#7B2D8B">✓</span> Modify nouns with verbs/adjectives</div>
+          </div>
+          <div>
+            <div class="phase-section-label">Topics Covered</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Connectives: -고, -지만, -(으)면</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Because: -(아/어)서, -(으)니까</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Ability: -(으)ㄹ 수 있다/없다</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Want: -고 싶다</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Honorifics: -(으)세요, -습니다</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Noun modifiers: -(으)ㄴ/는/(으)ㄹ</div>
+          </div>
+        </div>
+        <div class="daily-box" style="background:#faf0ff;border:1px solid #d0a0e0">
+          <span class="daily-label" style="color:#7B2D8B">⏱ Daily plan:</span>
+          2.5 hrs/day — 45 min grammar · 45 min writing · 30 min listening · 30 min vocab review
+        </div>
+        <button class="sheet-link-btn" style="background:#7B2D8B" onclick="openSheet('grammar2')">Open Study Sheet →</button>
+      </div>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase-card">
+      <div class="phase-header" onclick="togglePhase(5)">
+        <div class="phase-icon" style="background:#D4780A;color:#fff">🎯</div>
+        <div class="phase-meta">
+          <div class="phase-badge-row">
+            <span class="phase-num" style="color:#D4780A">Phase 5</span>
+            <span class="phase-weeks">Week 8</span>
+          </div>
+          <div class="phase-title">TOPIK I — Exam Prep</div>
+        </div>
+        <div class="phase-chevron" id="chevron-5">▼</div>
+      </div>
+      <div class="phase-body" id="body-5">
+        <div class="phase-grid">
+          <div>
+            <div class="phase-section-label">Goals</div>
+            <div class="check-item"><span class="check-icon" style="color:#D4780A">✓</span> Score 80+ on TOPIK I (Level 2)</div>
+            <div class="check-item"><span class="check-icon" style="color:#D4780A">✓</span> Complete 2 timed practice tests</div>
+            <div class="check-item"><span class="check-icon" style="color:#D4780A">✓</span> Master common exam formats</div>
+            <div class="check-item"><span class="check-icon" style="color:#D4780A">✓</span> Consolidate all 800+ vocabulary</div>
+          </div>
+          <div>
+            <div class="phase-section-label">Topics Covered</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Day 1–2: Full timed mock test + review</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Day 3: Listening drills (all types)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Day 4: Reading drills (signs, notices)</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Day 5: Vocabulary & grammar weak spots</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Day 6: Light review only — rest well</div>
+            <div class="arrow-item"><span style="color:#ccc">→</span> Day 7: Exam day 🎉</div>
+          </div>
+        </div>
+        <div class="daily-box" style="background:#fffbf0;border:1px solid #f0d090">
+          <span class="daily-label" style="color:#D4780A">⏱ Daily plan:</span>
+          3 hrs/day — intensive mock tests Mon–Thu · light review Fri · rest Sat · Exam Sun
+        </div>
+        <button class="sheet-link-btn" style="background:#D4780A" onclick="openSheet('topik')">Open Study Sheet →</button>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-box">
+      <div class="timeline-label">8-Week Timeline</div>
+      <div class="timeline-bar">
+        <div class="timeline-seg" style="flex:1">
+          <div class="timeline-color" style="background:#C8102E;border-radius:4px 0 0 4px"></div>
+          <div class="timeline-text">W1</div>
+        </div>
+        <div class="timeline-seg" style="flex:2">
+          <div class="timeline-color" style="background:#0057A8"></div>
+          <div class="timeline-text">W2–3</div>
+        </div>
+        <div class="timeline-seg" style="flex:2">
+          <div class="timeline-color" style="background:#2E8B57"></div>
+          <div class="timeline-text">W4–5</div>
+        </div>
+        <div class="timeline-seg" style="flex:2">
+          <div class="timeline-color" style="background:#7B2D8B"></div>
+          <div class="timeline-text">W6–7</div>
+        </div>
+        <div class="timeline-seg" style="flex:1">
+          <div class="timeline-color" style="background:#D4780A;border-radius:0 4px 4px 0"></div>
+          <div class="timeline-text">W8</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /roadmap tab -->
+
+
+  <!-- ══════════════════════════════════════════
+       SHEETS TAB
+  ══════════════════════════════════════════ -->
+  <div id="tab-sheets" class="tab-page">
+
+    <!-- Sheet selector grid -->
+    <div id="sheets-home" class="sheets-home">
+      <p class="sheet-intro">Choose a study sheet:</p>
+      <div class="sheets-grid">
+        <div class="sheet-card" style="background:#fff0f2;border-color:#f0b0bb" onclick="openSheet('hangul')">
+          <div class="sheet-card-emoji">🔤</div>
+          <div class="sheet-card-title" style="color:#C8102E">Hangul Study Sheet</div>
+          <div class="sheet-card-sub">Phase 1 · Week 1</div>
+        </div>
+        <div class="sheet-card" style="background:#f0f4ff;border-color:#b0c4f0" onclick="openSheet('grammar')">
+          <div class="sheet-card-emoji">🧱</div>
+          <div class="sheet-card-title" style="color:#0057A8">Core Grammar Sheet</div>
+          <div class="sheet-card-sub">Phase 2 · Weeks 2–3</div>
+        </div>
+        <div class="sheet-card" style="background:#f0fff5;border-color:#a0d8b0" onclick="openSheet('vocab')">
+          <div class="sheet-card-emoji">📚</div>
+          <div class="sheet-card-title" style="color:#2E8B57">Core Vocabulary</div>
+          <div class="sheet-card-sub">Phase 3 · Weeks 4–5</div>
+        </div>
+        <div class="sheet-card" style="background:#faf0ff;border-color:#d0a0e0" onclick="openSheet('grammar2')">
+          <div class="sheet-card-emoji">⚙️</div>
+          <div class="sheet-card-title" style="color:#7B2D8B">Intermediate Grammar</div>
+          <div class="sheet-card-sub">Phase 4 · Weeks 6–7</div>
+        </div>
+        <div class="sheet-card" style="background:#fffbf0;border-color:#f0d090;grid-column:span 2" onclick="openSheet('topik')">
+          <div class="sheet-card-emoji">🎯</div>
+          <div class="sheet-card-title" style="color:#D4780A">TOPIK I Exam Guide</div>
+          <div class="sheet-card-sub">Phase 5 · Week 8</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Individual sheets (hidden by default) -->
+
+    <div id="sheet-hangul" class="sheet-view">
+      <button class="back-btn" onclick="closeSheet()">← Back to all sheets</button>
+      <div class="sheet-title">📝 Hangul Study Sheet</div>
+
+      <div class="section-heading">Basic Vowels (기본 모음)</div>
+      <table><thead><tr><th>Letter</th><th>Sound</th><th>Example</th></tr></thead><tbody>
+        <tr><td>ㅏ</td><td>a (father)</td><td>아버지 (father)</td></tr>
+        <tr><td>ㅓ</td><td>eo (over)</td><td>어머니 (mother)</td></tr>
+        <tr><td>ㅗ</td><td>o (go)</td><td>오리 (duck)</td></tr>
+        <tr><td>ㅜ</td><td>u (moon)</td><td>우유 (milk)</td></tr>
+        <tr><td>ㅡ</td><td>eu (hmm)</td><td>그 (that)</td></tr>
+        <tr><td>ㅣ</td><td>i (see)</td><td>이름 (name)</td></tr>
+        <tr><td>ㅐ</td><td>ae (bed)</td><td>애기 (baby)</td></tr>
+        <tr><td>ㅔ</td><td>e (bed)</td><td>에어컨 (A/C)</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Basic Consonants (기본 자음)</div>
+      <table><thead><tr><th>Letter</th><th>Initial</th><th>Final (받침)</th></tr></thead><tbody>
+        <tr><td>ㄱ</td><td>g/k</td><td>k</td></tr>
+        <tr><td>ㄴ</td><td>n</td><td>n</td></tr>
+        <tr><td>ㄷ</td><td>d/t</td><td>t</td></tr>
+        <tr><td>ㄹ</td><td>r/l</td><td>l</td></tr>
+        <tr><td>ㅁ</td><td>m</td><td>m</td></tr>
+        <tr><td>ㅂ</td><td>b/p</td><td>p</td></tr>
+        <tr><td>ㅅ</td><td>s</td><td>t</td></tr>
+        <tr><td>ㅇ</td><td>silent / ng</td><td>ng</td></tr>
+        <tr><td>ㅈ</td><td>j/ch</td><td>t</td></tr>
+        <tr><td>ㅎ</td><td>h</td><td>—</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Syllable Block Formula</div>
+      <div class="note-box">Korean syllables always follow: Consonant + Vowel (+ optional final consonant)
+
+Example:  한 = ㅎ + ㅏ + ㄴ  |  글 = ㄱ + ㅡ + ㄹ  |  어 = ㅇ + ㅓ</div>
+
+      <div class="section-heading">Essential Pronunciation Rules</div>
+      <ul class="sheet-list">
+        <li><strong>Liaison (연음):</strong> Final consonant moves to next syllable's initial — 먹어요 → [머거요]</li>
+        <li><strong>Nasalization:</strong> ㄱ/ㄷ/ㅂ + ㄴ/ㅁ → become nasal — 국물 → [궁물]</li>
+        <li><strong>Aspiration:</strong> ㄱ/ㄷ/ㅂ/ㅈ + ㅎ → aspirated — 좋다 → [조타]</li>
+        <li><strong>Tensification:</strong> After unreleased stops, plain consonants become tense — 학교 → [학꾜]</li>
+      </ul>
+    </div>
+
+    <div id="sheet-grammar" class="sheet-view">
+      <button class="back-btn" onclick="closeSheet()">← Back to all sheets</button>
+      <div class="sheet-title">🧱 Core Grammar Sheet</div>
+
+      <div class="section-heading">Particles (조사)</div>
+      <table><thead><tr><th>Particle</th><th>Function</th><th>After consonant</th><th>After vowel</th></tr></thead><tbody>
+        <tr><td>Topic</td><td>은/는 (contrast/topic)</td><td>은</td><td>는</td></tr>
+        <tr><td>Subject</td><td>이/가 (new info)</td><td>이</td><td>가</td></tr>
+        <tr><td>Object</td><td>을/를 (direct obj.)</td><td>을</td><td>를</td></tr>
+        <tr><td>Location (be)</td><td>에 (static)</td><td>에</td><td>에</td></tr>
+        <tr><td>Location (go)</td><td>에서 (movement/action)</td><td>에서</td><td>에서</td></tr>
+        <tr><td>With/and</td><td>와/과 · 하고</td><td>과 / 하고</td><td>와 / 하고</td></tr>
+        <tr><td>Possessive</td><td>의</td><td>의</td><td>의</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Verb Endings — Present (해요체)</div>
+      <table><thead><tr><th>Stem vowel</th><th>Ending</th><th>Example</th></tr></thead><tbody>
+        <tr><td>ㅏ / ㅗ stem</td><td>-아요</td><td>가다 → 가요</td></tr>
+        <tr><td>Any other vowel</td><td>-어요</td><td>먹다 → 먹어요</td></tr>
+        <tr><td>하다 verbs</td><td>-해요</td><td>공부하다 → 공부해요</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Verb Endings — Past & Future</div>
+      <table><thead><tr><th>Tense</th><th>Ending</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Past (ㅏ/ㅗ stem)</td><td>-았어요</td><td>갔어요 (went)</td></tr>
+        <tr><td>Past (other)</td><td>-었어요</td><td>먹었어요 (ate)</td></tr>
+        <tr><td>Past (하다)</td><td>-했어요</td><td>공부했어요 (studied)</td></tr>
+        <tr><td>Future / Plan</td><td>-(으)ㄹ 거예요</td><td>갈 거예요 (will go)</td></tr>
+        <tr><td>Intention</td><td>-(으)려고 해요</td><td>먹으려고 해요 (plan to eat)</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Negation</div>
+      <table><thead><tr><th>Type</th><th>Pattern</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Short negation</td><td>안 + verb</td><td>안 가요 (don't go)</td></tr>
+        <tr><td>Long negation</td><td>Verb stem + -지 않아요</td><td>가지 않아요</td></tr>
+        <tr><td>Cannot</td><td>못 + verb / -지 못해요</td><td>못 가요 (can't go)</td></tr>
+        <tr><td>Not exist/have</td><td>없어요</td><td>시간이 없어요 (no time)</td></tr>
+      </tbody></table>
+    </div>
+
+    <div id="sheet-grammar2" class="sheet-view">
+      <button class="back-btn" onclick="closeSheet()">← Back to all sheets</button>
+      <div class="sheet-title">⚙️ Intermediate Grammar Sheet</div>
+
+      <div class="section-heading">Connective Endings</div>
+      <table><thead><tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+        <tr><td>-고</td><td>and (sequential)</td><td>밥을 먹고 갔어요</td></tr>
+        <tr><td>-지만</td><td>but / however</td><td>비싸지만 맛있어요</td></tr>
+        <tr><td>-(으)면</td><td>if / when</td><td>비가 오면 집에 있어요</td></tr>
+        <tr><td>-(아/어)서</td><td>so / because (cause→result)</td><td>배가 고파서 먹었어요</td></tr>
+        <tr><td>-(으)니까</td><td>because (speaker's judgment)</td><td>바쁘니까 못 가요</td></tr>
+        <tr><td>-는데</td><td>but / background info</td><td>날씨가 좋은데 산책할까요?</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Modal Expressions</div>
+      <table><thead><tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+        <tr><td>-(으)ㄹ 수 있다</td><td>can / able to</td><td>수영할 수 있어요</td></tr>
+        <tr><td>-(으)ㄹ 수 없다</td><td>cannot</td><td>지금 갈 수 없어요</td></tr>
+        <tr><td>-고 싶다</td><td>want to</td><td>커피를 마시고 싶어요</td></tr>
+        <tr><td>-(으)면 좋겠다</td><td>wish / hope</td><td>날씨가 좋으면 좋겠다</td></tr>
+        <tr><td>-아/어야 하다</td><td>must / have to</td><td>지금 가야 해요</td></tr>
+        <tr><td>-(으)ㄹ게요</td><td>I will (promise)</td><td>제가 할게요</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Noun Modifiers</div>
+      <table><thead><tr><th>Tense</th><th>Verb modifier</th><th>Adj modifier</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Present</td><td>-는</td><td>-(으)ㄴ</td><td>먹는 사람 / 예쁜 꽃</td></tr>
+        <tr><td>Past</td><td>-(으)ㄴ</td><td>-(으)ㄴ</td><td>먹은 음식</td></tr>
+        <tr><td>Future</td><td>-(으)ㄹ</td><td>-(으)ㄹ</td><td>갈 곳 (place to go)</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Honorific Speech (존댓말)</div>
+      <ul class="sheet-list">
+        <li><strong>Subject honorific:</strong> -으시/시- inserted in stem → 가다 → 가세요 | 드시다 (eat, polite)</li>
+        <li><strong>Object honorific:</strong> 드리다 (give to senior) vs 주다 (give generally)</li>
+        <li><strong>Special honorific vocab:</strong> 밥→진지, 집→댁, 이름→성함, 나이→연세, 아프다→편찮다</li>
+        <li><strong>Formal polite:</strong> -습니다/ㅂ니다 (presentations, strangers) vs -해요 (everyday polite)</li>
+      </ul>
+    </div>
+
+    <div id="sheet-vocab" class="sheet-view">
+      <button class="back-btn" onclick="closeSheet()">← Back to all sheets</button>
+      <div class="sheet-title">📚 Core Vocabulary — Top Categories</div>
+
+      <div class="section-heading">Time & Days (시간/날짜)</div>
+      <table><thead><tr><th>Korean</th><th>Romanization</th><th>English</th></tr></thead><tbody>
+        <tr><td>오늘</td><td>oneul</td><td>today</td></tr>
+        <tr><td>내일</td><td>naeil</td><td>tomorrow</td></tr>
+        <tr><td>어제</td><td>eoje</td><td>yesterday</td></tr>
+        <tr><td>지금</td><td>jigeum</td><td>now</td></tr>
+        <tr><td>아침</td><td>achim</td><td>morning</td></tr>
+        <tr><td>점심</td><td>jeomsim</td><td>noon / lunch</td></tr>
+        <tr><td>저녁</td><td>jeonyeok</td><td>evening / dinner</td></tr>
+        <tr><td>주말</td><td>jumal</td><td>weekend</td></tr>
+        <tr><td>월요일~일요일</td><td>wol~il</td><td>Mon–Sun</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Food & Dining (음식)</div>
+      <table><thead><tr><th>Korean</th><th>Romanization</th><th>English</th></tr></thead><tbody>
+        <tr><td>밥</td><td>bap</td><td>rice / meal</td></tr>
+        <tr><td>물</td><td>mul</td><td>water</td></tr>
+        <tr><td>고기</td><td>gogi</td><td>meat</td></tr>
+        <tr><td>야채 / 채소</td><td>yachae</td><td>vegetables</td></tr>
+        <tr><td>맛있다</td><td>masitda</td><td>delicious</td></tr>
+        <tr><td>맵다</td><td>maepda</td><td>spicy</td></tr>
+        <tr><td>달다</td><td>dalda</td><td>sweet</td></tr>
+        <tr><td>주문하다</td><td>jumonhada</td><td>to order</td></tr>
+        <tr><td>계산서</td><td>gyesanseo</td><td>bill / check</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Transportation & Places (교통/장소)</div>
+      <table><thead><tr><th>Korean</th><th>Romanization</th><th>English</th></tr></thead><tbody>
+        <tr><td>지하철</td><td>jihacheol</td><td>subway</td></tr>
+        <tr><td>버스</td><td>beoseu</td><td>bus</td></tr>
+        <tr><td>택시</td><td>taeksi</td><td>taxi</td></tr>
+        <tr><td>기차</td><td>gicha</td><td>train</td></tr>
+        <tr><td>공항</td><td>gonghang</td><td>airport</td></tr>
+        <tr><td>역</td><td>yeok</td><td>station</td></tr>
+        <tr><td>병원</td><td>byeongwon</td><td>hospital</td></tr>
+        <tr><td>학교</td><td>hakgyo</td><td>school</td></tr>
+        <tr><td>편의점</td><td>pyeonuijeom</td><td>convenience store</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Essential Verbs (동사)</div>
+      <table><thead><tr><th>Korean</th><th>Romanization</th><th>English</th></tr></thead><tbody>
+        <tr><td>가다 / 오다</td><td>gada / oda</td><td>go / come</td></tr>
+        <tr><td>먹다 / 마시다</td><td>meokda / masida</td><td>eat / drink</td></tr>
+        <tr><td>보다</td><td>boda</td><td>see / watch</td></tr>
+        <tr><td>듣다</td><td>deutda</td><td>listen / hear</td></tr>
+        <tr><td>말하다</td><td>malhada</td><td>speak</td></tr>
+        <tr><td>쓰다 / 읽다</td><td>seuda / ikda</td><td>write / read</td></tr>
+        <tr><td>사다 / 팔다</td><td>sada / palda</td><td>buy / sell</td></tr>
+        <tr><td>좋아하다</td><td>joahada</td><td>to like</td></tr>
+        <tr><td>알다 / 모르다</td><td>alda / moreuda</td><td>know / not know</td></tr>
+      </tbody></table>
+    </div>
+
+    <div id="sheet-topik" class="sheet-view">
+      <button class="back-btn" onclick="closeSheet()">← Back to all sheets</button>
+      <div class="sheet-title">🎯 TOPIK I Level 2 — Exam Guide</div>
+
+      <div class="section-heading">Test Format</div>
+      <table><thead><tr><th>Section</th><th>Questions</th><th>Time</th><th>Points</th></tr></thead><tbody>
+        <tr><td>Listening (듣기)</td><td>30 questions</td><td>40 min</td><td>100 pts</td></tr>
+        <tr><td>Reading (읽기)</td><td>40 questions</td><td>60 min</td><td>100 pts</td></tr>
+        <tr><td>Total</td><td>70 questions</td><td>100 min</td><td>200 pts</td></tr>
+        <tr><td>Level 2 pass score</td><td>—</td><td>—</td><td>80–139 pts</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Listening Question Types</div>
+      <ul class="sheet-list">
+        <li><strong>Q1–4:</strong> Short dialogues — choose the matching picture or next response</li>
+        <li><strong>Q5–8:</strong> Short conversations — choose what topic/situation it is</li>
+        <li><strong>Q9–12:</strong> Medium dialogues — choose the central topic or correct inference</li>
+        <li><strong>Q13–16:</strong> Longer monologues — listen twice, answer comprehension questions</li>
+        <li>💡 <strong>Key tip:</strong> Focus on first and last sentences — they carry the main idea</li>
+      </ul>
+
+      <div class="section-heading">Reading Question Types</div>
+      <ul class="sheet-list">
+        <li><strong>Q1–8:</strong> Vocabulary — choose meaning, fill in the blank</li>
+        <li><strong>Q9–18:</strong> Short texts (signs, ads, notices) — choose correct info</li>
+        <li><strong>Q19–24:</strong> Medium texts — choose main idea or fill missing sentence</li>
+        <li><strong>Q25–30:</strong> Arrange sentences / find the odd one out</li>
+        <li><strong>Q31–40:</strong> Longer passages — inference and comprehension</li>
+      </ul>
+
+      <div class="section-heading">High-Frequency TOPIK Vocabulary</div>
+      <table><thead><tr><th>Korean</th><th>English</th><th>Category</th></tr></thead><tbody>
+        <tr><td>신청하다</td><td>to apply / register</td><td>notices</td></tr>
+        <tr><td>모집하다</td><td>to recruit / gather</td><td>announcements</td></tr>
+        <tr><td>할인</td><td>discount</td><td>shopping</td></tr>
+        <tr><td>무료 / 유료</td><td>free / paid</td><td>services</td></tr>
+        <tr><td>예약하다</td><td>to reserve</td><td>travel / dining</td></tr>
+        <tr><td>취소하다</td><td>to cancel</td><td>services</td></tr>
+        <tr><td>문의하다</td><td>to inquire</td><td>formal</td></tr>
+        <tr><td>이용하다</td><td>to use / utilize</td><td>notices</td></tr>
+        <tr><td>참가하다</td><td>to participate</td><td>events</td></tr>
+      </tbody></table>
+
+      <div class="section-heading">Final Week Study Schedule</div>
+      <ul class="sheet-list">
+        <li><strong>Mon–Tue:</strong> Full timed mock test (100 min) → review every wrong answer carefully</li>
+        <li><strong>Wed:</strong> Listening drills only — all 4 question types, repeat problem areas</li>
+        <li><strong>Thu:</strong> Reading drills — signs, notices, short passages, sentence ordering</li>
+        <li><strong>Fri:</strong> Vocabulary & grammar weak spots only — no new material</li>
+        <li><strong>Sat:</strong> Light review (30 min max) + early bedtime 🛌</li>
+        <li><strong>Sun:</strong> 시험 날 (Exam day)! Eat well, arrive early, you've got this 🎉</li>
+      </ul>
+    </div>
+
+  </div><!-- /sheets tab -->
+
+</div><!-- /main -->
 
 <script>
-    const database = [
-        { kr: "안전모", en: "Hard Hat", img: "👷" },
-        { kr: "월급", en: "Salary", img: "💰" },
-        { kr: "계약서", en: "Contract", img: "📝" },
-        { kr: "대학교", en: "University", img: "🏫" }
-    ];
+  // ── TAB SWITCHING ──
+  function switchTab(name) {
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.textContent.toLowerCase().includes(name === 'roadmap' ? 'roadmap' : 'sheet')) {
+        b.classList.add('active');
+      }
+    });
+    closeSheet();
+  }
 
-    function unlock() {
-        const input = document.getElementById('pass').value;
-        // FIXED: The password is kept secret and not shown on error
-        if(input === "SEOUL2024") {
-            document.getElementById('gatekeeper').style.display = 'none';
-            renderGame();
-        } else { 
-            alert("Access Denied. Unauthorized entry attempt recorded."); 
-        }
-    }
+  // ── PHASE TOGGLE ──
+  function togglePhase(n) {
+    const body = document.getElementById('body-' + n);
+    const chevron = document.getElementById('chevron-' + n);
+    const card = body.closest('.phase-card');
+    const isOpen = body.classList.contains('open');
 
-    function showPage(id, btn) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('page-' + id).classList.add('active');
-        btn.classList.add('active');
-    }
+    // Close all
+    document.querySelectorAll('.phase-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.phase-chevron').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.phase-card').forEach(c => c.style.borderColor = 'var(--border)');
+    document.querySelectorAll('.progress-segment').forEach(s => s.classList.remove('active'));
 
-    function togglePhase(n) {
-        const content = document.getElementById('phase-' + n);
-        content.classList.toggle('open');
+    if (!isOpen) {
+      body.classList.add('open');
+      chevron.classList.add('open');
+      // Highlight progress bar
+      const colors = { 1: '#C8102E', 2: '#0057A8', 3: '#2E8B57', 4: '#7B2D8B', 5: '#D4780A' };
+      card.style.borderColor = colors[n];
+      document.querySelector(`.progress-segment[data-phase="${n}"]`).classList.add('active');
     }
+  }
 
-    function renderGame() {
-        const target = database[Math.floor(Math.random() * database.length)];
-        document.getElementById('target-kr').textContent = target.kr;
-        const grid = document.getElementById('options-grid');
-        grid.innerHTML = '';
-        database.forEach(opt => {
-            const b = document.createElement('div');
-            b.className = 'game-opt';
-            b.innerHTML = `<span style="font-size:2rem">${opt.img}</span><br>${opt.en}`;
-            b.onclick = () => { if(opt === target) { b.classList.add('correct'); setTimeout(renderGame, 600); } };
-            grid.appendChild(b);
-        });
-    }
+  // ── STUDY SHEETS ──
+  function openSheet(id) {
+    // Go to sheets tab
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-sheets').classList.add('active');
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+
+    // Hide grid, show sheet
+    document.getElementById('sheets-home').style.display = 'none';
+    document.querySelectorAll('.sheet-view').forEach(s => s.classList.remove('open'));
+    document.getElementById('sheet-' + id).classList.add('open');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closeSheet() {
+    document.getElementById('sheets-home').style.display = '';
+    document.querySelectorAll('.sheet-view').forEach(s => s.classList.remove('open'));
+  }
 </script>
 </body>
 </html>
