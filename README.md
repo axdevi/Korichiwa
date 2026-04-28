@@ -1,3 +1,3 @@
-# Korichiwa
-# Dont know what i am doing 
-# 99% AI 1% hUMAN STUPIDITY
+ - Korichiwa
+ - Dont know what i am doing 
+ - 99% AI 1% HUMAN STUPIDITY
