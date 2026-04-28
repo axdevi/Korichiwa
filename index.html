@@ -3,196 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeoulSurvive: Master Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
+    <title>SeoulSurvive: Professional Study Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #FFF9F0; --red: #FF4757; --blue: #2E86DE; 
-            --green: #27AE60; --yellow: #F1C40F; --text: #2D3436;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+        :root { --red: #C8102E; --blue: #0057A8; --bg: #f5f4f1; --card: #ffffff; --text: #1a1a1a; --green: #2E8B57; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Noto Sans KR', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+        
+        /* GATEKEEPER */
+        #gatekeeper { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .gate-card { background: white; padding: 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 400px; }
 
-        /* GATEKEEPER (Security Code) */
-        #gatekeeper {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: var(--blue); z-index: 10000; display: flex;
-            align-items: center; justify-content: center;
-        }
-        .gate-card {
-            background: white; padding: 40px; border-radius: 30px;
-            text-align: center; box-shadow: 0 10px 0 rgba(0,0,0,0.1); width: 90%; max-width: 400px;
-        }
+        /* NAVIGATION */
+        header { background: white; padding: 20px; border-bottom: 2px solid #ddd; text-align: center; }
+        .nav-tabs { display: flex; background: white; border-bottom: 2px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: 600; cursor: pointer; color: #777; border-bottom: 3px solid transparent; }
+        .tab-btn.active { color: var(--red); border-bottom-color: var(--red); }
 
-        /* HEADER & TABS */
-        header { background: white; padding: 15px; border-bottom: 5px solid #EEE; display: flex; justify-content: space-between; align-items: center; }
-        .tab-nav { display: flex; background: white; border-bottom: 5px solid #EEE; position: sticky; top:0; z-index: 100; overflow-x: auto; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: 600; cursor: pointer; color: #95a5a6; font-size: 0.8rem; white-space: nowrap; }
-        .tab-btn.active { color: var(--red); border-bottom: 4px solid var(--red); }
-
-        .page { display: none; padding: 20px; max-width: 600px; margin: auto; animation: fadeIn 0.3s; padding-bottom: 100px; }
+        .page { display: none; padding: 20px; max-width: 800px; margin: auto; animation: fadeIn 0.3s; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* BOX STYLES */
-        .item-box { background: white; border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 2px solid #EEE; }
-        .tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 10px; background: #EEE; float: right; }
+        /* ROADMAP & CARDS */
+        .phase-card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 5px solid var(--blue); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .phase-num { font-size: 0.8rem; color: var(--blue); font-weight: bold; text-transform: uppercase; }
         
-        /* GAME STYLES */
-        #stage { text-align: center; padding: 20px; min-height: 300px; }
-        .game-icon { width: 140px; height: 140px; margin-bottom: 20px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-15px)} }
-        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .opt-btn { background: white; border: 3px solid #EEE; border-bottom: 7px solid #DDD; padding: 20px; border-radius: 15px; font-size: 1.1rem; cursor: pointer; transition: 0.1s; }
-        .opt-btn.correct { background: var(--green) !important; color: white !important; border-color: #1e8449 !important; }
+        /* GAME AREA */
+        #game-container { text-align: center; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .game-img { width: 150px; height: 150px; margin-bottom: 20px; object-fit: contain; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .game-btn { background: white; border: 2px solid #eee; padding: 15px; border-radius: 12px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+        .game-btn:hover { border-color: var(--blue); background: #f0f7ff; }
+        .game-btn.correct { background: var(--green); color: white; border-color: var(--green); }
 
-        .slot-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; }
-        .slot { width: 45px; height: 55px; background: white; border-bottom: 5px solid #DDD; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-family: 'Noto Sans KR'; }
-
-        /* README/INFO STYLE */
-        .readme-text { font-size: 0.9rem; line-height: 1.6; color: #636e72; }
+        /* DICTIONARY */
+        .dict-item { display: flex; justify-content: space-between; background: white; padding: 15px; border-radius: 10px; margin-bottom: 8px; border: 1px solid #eee; }
     </style>
 </head>
 <body>
 
 <div id="gatekeeper">
     <div class="gate-card">
-        <h1 style="color:var(--blue)">SeoulSurvive</h1>
-        <p>Access Code Required</p>
-        <input type="password" id="pass" placeholder="Enter Code" style="width:100%; padding:15px; margin:20px 0; border-radius:15px; border:2px solid #EEE; text-align:center; font-size: 1.5rem;">
-        <button onclick="unlock()" style="background:var(--red); color:white; border:none; padding:15px 30px; border-radius:30px; width:100%; font-weight:bold; cursor:pointer;">START LEARNING</button>
+        <h1 style="color:var(--blue); margin-bottom: 10px;">SeoulSurvive</h1>
+        <p>Private Student Portal</p>
+        <input type="password" id="pass" placeholder="Enter Access Code" style="width:100%; padding:15px; margin:20px 0; border-radius:10px; border:1px solid #ddd; text-align: center;">
+        <button onclick="unlock()" style="background:var(--red); color:white; border:none; padding:15px; border-radius:10px; width:100%; font-weight:bold; cursor:pointer;">UNLOCK CONTENT</button>
     </div>
 </div>
 
-<header>
-    <div style="font-size:1.2rem; color:var(--red); font-weight: bold;">SeoulSurvive 🇰🇷</div>
-    <div id="score" style="background:var(--yellow); color:white; padding:5px 15px; border-radius:20px;">Score: 0</div>
-</header>
+<header><h1>SeoulSurvive Master Portal</h1></header>
 
-<div class="tab-nav">
-    <button class="tab-btn active" onclick="showPage('game', this)">🎮 PLAY</button>
-    <button class="tab-btn" onclick="showPage('hanja', this)">🏯 HANJA</button>
-    <button class="tab-btn" onclick="showPage('eps', this)">👷 DICT</button>
-    <button class="tab-btn" onclick="showPage('info', this)">ℹ️ ABOUT</button>
+<div class="nav-tabs">
+    <button class="tab-btn active" onclick="showPage('roadmap', this)">📍 ROADMAP</button>
+    <button class="tab-btn" onclick="showPage('play', this)">🎮 GAME</button>
+    <button class="tab-btn" onclick="showPage('dict', this)">📚 DICTIONARY</button>
 </div>
 
-<div id="page-game" class="page active">
-    <div id="stage"></div>
-    <div style="display:flex; gap:10px; margin-top:20px;">
-        <button onclick="gameMode='match'; renderGame();" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; background:white;">🖼️ Match</button>
-        <button onclick="gameMode='spell'; renderGame();" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; background:white;">⌨️ Spell</button>
+<div id="page-roadmap" class="page active">
+    <div class="phase-card">
+        <div class="phase-num">Weeks 1-2</div>
+        <h3>Phase 1: Foundations & Hangul</h3>
+        <p>Mastering the alphabet, basic greetings, and the "To be" (이다/있다) verbs.</p>
+    </div>
+    <div class="phase-card" style="border-left-color: var(--red);">
+        <div class="phase-num">Weeks 3-4</div>
+        <h3>Phase 2: Survival & Daily Life</h3>
+        <p>Numbers, time, workplace vocabulary (EPS), and basic particles (은/는, 이/가).</p>
+    </div>
+    <div class="phase-card" style="border-left-color: var(--green);">
+        <div class="phase-num">Weeks 5-6</div>
+        <h3>Phase 3: Action & Grammar</h3>
+        <p>Verb conjugations, past/future tense, and expressing wants (-고 싶다).</p>
     </div>
 </div>
 
-<div id="page-hanja" class="page">
-    <h2>Hanja: Word DNA</h2>
-    <div id="hanja-list"></div>
+<div id="page-play" class="page">
+    <div id="game-container">
+        <div id="game-target-word" style="font-size: 2.5rem; margin-bottom: 10px;">...</div>
+        <div id="game-visual"></div>
+        <div class="btn-grid" id="game-options"></div>
+    </div>
 </div>
 
-<div id="page-eps" class="page">
-    <h2>Word Bank</h2>
-    <div id="eps-list"></div>
-</div>
-
-<div id="page-info" class="page">
-    <div class="item-box">
-        <h3>📖 About SeoulSurvive</h3>
-        <p class="readme-text">This app is a dedicated study portal for EPS-TOPIK workers and International students in Korea. It combines "Babadum" style gaming with essential survival vocabulary.</p>
-    </div>
-    <div class="item-box">
-        <h3>📜 License (MIT)</h3>
-        <p class="readme-text" style="font-size: 0.7rem;">Permission is hereby granted, free of charge, to any person obtaining a copy of this software to use, copy, modify, and distribute it, provided this notice is included.</p>
-    </div>
-    <div class="item-box">
-        <h3>🛠️ Support</h3>
-        <p class="readme-text">For access codes or adding words, contact the Admin via GitHub.</p>
-    </div>
+<div id="page-dict" class="page">
+    <div id="dict-list"></div>
 </div>
 
 <script>
     const database = [
         { kr: "안전모", en: "Hard Hat", img: "https://cdn-icons-png.flaticon.com/512/1065/1065520.png", cat: "EPS" },
-        { kr: "월급", en: "Monthly Wage", img: "https://cdn-icons-png.flaticon.com/512/3135/3135673.png", cat: "EPS" },
+        { kr: "월급", en: "Salary", img: "https://cdn-icons-png.flaticon.com/512/3135/3135673.png", cat: "EPS" },
         { kr: "계약서", en: "Contract", img: "https://cdn-icons-png.flaticon.com/512/3503/3503612.png", cat: "EPS" },
         { kr: "장학금", en: "Scholarship", img: "https://cdn-icons-png.flaticon.com/512/2303/2303920.png", cat: "UNI" },
-        { kr: "성적", en: "Grades", img: "https://cdn-icons-png.flaticon.com/512/2641/2641443.png", cat: "UNI" },
-        { kr: "통장", en: "Bank Book", img: "https://cdn-icons-png.flaticon.com/512/2830/2830284.png", cat: "Daily" },
-        { kr: "출입국", en: "Immigration", img: "https://cdn-icons-png.flaticon.com/512/2234/2234710.png", cat: "Daily" }
+        { kr: "대학교", en: "University", img: "https://cdn-icons-png.flaticon.com/512/167/167707.png", cat: "UNI" },
+        { kr: "교수님", en: "Professor", img: "https://cdn-icons-png.flaticon.com/512/1995/1995531.png", cat: "UNI" },
+        { kr: "식당", en: "Restaurant", img: "https://cdn-icons-png.flaticon.com/512/3443/3443338.png", cat: "Daily" },
+        { kr: "병원", en: "Hospital", img: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png", cat: "Daily" },
+        { kr: "출입국", en: "Immigration", img: "https://cdn-icons-png.flaticon.com/512/2234/2234710.png", cat: "EPS" }
     ];
-
-    const hanjaRoots = [
-        { root: "학 (學)", mean: "Study", ex: "학교 (School), 학생 (Student)" },
-        { root: "식 (食)", mean: "Food", ex: "식당 (Restaurant), 음식 (Food)" },
-        { root: "대 (大)", mean: "Big", ex: "대학교 (University), 대표 (CEO)" }
-    ];
-
-    let gameMode = 'match', target = null, score = 0;
 
     function unlock() {
         if(document.getElementById('pass').value === "SEOUL2024") {
             document.getElementById('gatekeeper').style.display = 'none';
-            renderGame(); renderHanja(); renderDict();
-        } else { alert("Access Denied!"); }
+            renderGame();
+            renderDict();
+        } else { alert("Incorrect Code"); }
     }
 
     function showPage(id, btn) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('page-' + id).classList.add('active');
         btn.classList.add('active');
     }
 
     function renderGame() {
-        const stage = document.getElementById('stage');
-        stage.innerHTML = '';
-        target = database[Math.floor(Math.random() * database.length)];
-
-        if(gameMode === 'match') {
-            stage.innerHTML = `<h1 style="font-size:3.5rem; margin-bottom:20px; font-family:'Noto Sans KR'">${target.kr}</h1><div class="opt-grid" id="og"></div>`;
-            let options = [target, ...database.filter(x => x !== target)].slice(0, 4).sort(() => Math.random() - 0.5);
-            options.forEach(opt => {
-                const b = document.createElement('button');
-                b.className = 'opt-btn';
-                b.innerHTML = `<img src="${opt.img}" width="60"><br>${opt.en}`;
-                b.onclick = () => { if(opt === target) { b.classList.add('correct'); score += 10; updateScore(); setTimeout(renderGame, 800); } };
-                document.getElementById('og').appendChild(b);
-            });
-        } else {
-            stage.innerHTML = `<img src="${target.img}" class="game-icon"><div class="slot-row" id="slots"></div><div class="opt-grid" id="kb" style="grid-template-columns:repeat(5, 1fr);"></div>`;
-            let spelling = "";
-            [...target.kr].forEach(() => document.getElementById('slots').innerHTML += `<div class="slot"></div>`);
-            let keys = [...target.kr, "가", "나", "다", "라"].sort(() => Math.random() - 0.5);
-            keys.forEach(k => {
-                const b = document.createElement('button'); b.className = 'opt-btn'; b.textContent = k;
-                b.onclick = () => {
-                    if(k === target.kr[spelling.length]) {
-                        document.querySelectorAll('.slot')[spelling.length].textContent = k;
-                        spelling += k;
-                        if(spelling === target.kr) { score += 20; updateScore(); setTimeout(renderGame, 800); }
-                    }
-                };
-                document.getElementById('kb').appendChild(b);
-            });
-        }
-    }
-
-    function renderHanja() {
-        const list = document.getElementById('hanja-list');
-        list.innerHTML = '';
-        hanjaRoots.forEach(h => {
-            list.innerHTML += `<div class="item-box"><span style="font-size:1.5rem; color:var(--green)">${h.root}</span> = <b>${h.mean}</b><br><small>${h.ex}</small></div>`;
+        const target = database[Math.floor(Math.random() * database.length)];
+        document.getElementById('game-target-word').textContent = target.kr;
+        const options = [target, ...database.filter(x => x !== target)].slice(0, 4).sort(() => Math.random() - 0.5);
+        
+        const grid = document.getElementById('game-options');
+        grid.innerHTML = '';
+        options.forEach(opt => {
+            const b = document.createElement('button');
+            b.className = 'game-btn';
+            b.innerHTML = `<img src="${opt.img}" width="50"><br>${opt.en}`;
+            b.onclick = () => {
+                if(opt === target) { b.classList.add('correct'); setTimeout(renderGame, 800); }
+            };
+            grid.appendChild(b);
         });
     }
 
     function renderDict() {
-        const list = document.getElementById('eps-list');
-        list.innerHTML = '';
-        database.forEach(d => {
-            list.innerHTML += `<div class="item-box"><span class="tag">${d.cat}</span><b>${d.kr}</b><br>${d.en}</div>`;
-        });
+        const list = document.getElementById('dict-list');
+        list.innerHTML = database.map(d => `
+            <div class="dict-item">
+                <span><b>${d.kr}</b></span>
+                <span>${d.en} <small style="color:#999">(${d.cat})</small></span>
+            </div>
+        `).join('');
     }
-
-    function updateScore() { document.getElementById('score').textContent = "Score: " + score; }
 </script>
 </body>
 </html>
